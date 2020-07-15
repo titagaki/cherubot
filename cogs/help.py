@@ -10,7 +10,6 @@ class Help(commands.Cog):
     async def on_message(self, message):
         if message.content in ['ちぇる']:
             await message.channel.send("ちぇるーん")
-        return
 
     @commands.command(name='へるぷ', aliases=['ぷ', '？', '?'])
     async def help(self, ctx):

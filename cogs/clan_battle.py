@@ -30,8 +30,6 @@ class ClanBattle(commands.Cog):
         for emoji in self.digit_emoji[1:6]:
             await msg.add_reaction(emoji)
 
-        return False
-
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         reaction_msg = reaction.message
@@ -106,29 +104,29 @@ class ClanBattle(commands.Cog):
 class ClanBattleData:
     data = {}
 
-    def init_data(self, guild_id):
-        self.data[guild_id] = {
+    def init_data(self, guild):
+        self.data[guild.id] = {
             'reserved': {i: [] for i in range(5)},
             'current_boss': None
         }
 
     def set(self, guild, key, val):
         if guild.id not in self.data.keys():
-            self.init_data(guild.id)
+            self.init_data(guild)
 
         self.data[guild.id][key] = val
 
     def get(self, guild, key):
         if guild.id not in self.data.keys():
-            self.init_data(guild.id)
+            self.init_data(guild)
 
         return self.data[guild.id][key]
 
-    def get_all(self, guild_id):
-        if guild_id not in self.data.keys():
-            self.init_data(guild_id)
+    def get_all(self, guild):
+        if guild.id not in self.data.keys():
+            self.init_data(guild)
 
-        return self.data[guild_id]
+        return self.data[guild.id]
 
 
 def setup(bot):
