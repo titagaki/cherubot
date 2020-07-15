@@ -61,11 +61,11 @@ class ClanBattle(commands.Cog):
     async def reserve(self, ctx, boss_num: int):
         boss_name = self.to_boss_name(boss_num)
         if boss_name is None:
-            await ctx.channel.send("ちぇる呼 (1〜5の数字)で入力お願いします。")
+            await ctx.channel.send("ちぇるよび (1〜5の数字)で入力おねがいします。")
             return
 
         self.add_reserve(guild=ctx.guild, member=ctx.author, boss_num=boss_num)
-        await ctx.channel.send("わかりました。 %sになったらお呼びしますね。" % boss_name)
+        await ctx.channel.send("わかりました。%sになったらお呼びしますね。" % boss_name)
 
     def add_reserve(self, guild, member, boss_num):
         if guild is None:
