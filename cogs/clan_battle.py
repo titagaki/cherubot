@@ -118,14 +118,12 @@ class ClanBattleData:
         }
 
     def set(self, guild, key, val):
-        logging.debug("ClanBattleData.set(): guild_id = %s", guild.id)
         if guild.id not in self.data.keys():
             self.init_data(guild.id)
 
         self.data[guild.id][key] = val
 
     def get(self, guild, key):
-        logging.debug("ClanBattleData.get(): guild_id = %s", guild.id)
         if guild.id not in self.data.keys():
             self.init_data(guild.id)
 

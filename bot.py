@@ -11,7 +11,8 @@ extensions = [
 load_dotenv()
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 
-logging.basicConfig(level=logging.INFO)
+formatter = '%(levelname)s : %(asctime)s : %(message)s'
+logging.basicConfig(filename='logs/bot.log', level=logging.INFO, format=formatter)
 
 bot = commands.Bot(command_prefix="ちぇる")
 
@@ -23,7 +24,8 @@ if __name__ == '__main__':
 
 @bot.event
 async def on_ready():
-    logging.info("Name: {}, ID: {}".format(bot.user.name, bot.user.id))
+    logging.info("Name: {}".format(bot.user.name))
+    logging.info("ID: {}".format(bot.user.id))
 
 
 @bot.event
