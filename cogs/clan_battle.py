@@ -23,13 +23,12 @@ class ClanBattle(commands.Cog):
         self.config = config.Config()
         self.data = ClanBattleData()
 
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if message.content in ['ちぇる']:
-            msg = await message.channel.send("今のボスは誰ですか？")
+    @commands.command(name='ぼす', aliases=['ぼ'])
+    async def boss(self, ctx):
+        msg = await ctx.channel.send("今のボスは誰ですか？")
 
-            for emoji in self.digit_emoji[1:6]:
-                await msg.add_reaction(emoji)
+        for emoji in self.digit_emoji[1:6]:
+            await msg.add_reaction(emoji)
 
         return False
 
@@ -58,7 +57,7 @@ class ClanBattle(commands.Cog):
             for emoji in self.digit_emoji[1:6]:
                 await msg.add_reaction(emoji)
 
-    @commands.command(name='呼')
+    @commands.command(name='よび', aliases=['よ'])
     async def reserve(self, ctx, boss_num: int):
         boss_name = self.to_boss_name(boss_num)
         if boss_name is None:
@@ -102,10 +101,6 @@ class ClanBattle(commands.Cog):
         if 1 <= num <= len(clan_battle_boss_name):
             return clan_battle_boss_name[num - 1]
         return None
-
-    @commands.command(name="？")
-    async def help(self, ctx, boss_num: int):
-        pass
 
 
 class ClanBattleData:

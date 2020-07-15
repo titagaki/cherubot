@@ -5,7 +5,8 @@ import os
 from discord.ext import commands
 
 extensions = [
-    "cogs.clan_battle"
+    "cogs.clan_battle",
+    "cogs.help"
 ]
 
 load_dotenv()
@@ -18,7 +19,6 @@ bot = commands.Bot(command_prefix="ちぇる")
 
 if __name__ == '__main__':
     for extension in extensions:
-        print(f"extensions: {extensions}")
         bot.load_extension(extension)
 
 
@@ -26,6 +26,7 @@ if __name__ == '__main__':
 async def on_ready():
     logging.info("Name: {}".format(bot.user.name))
     logging.info("ID: {}".format(bot.user.id))
+    await bot.change_presence(activity=discord.Game(name="「ちぇるへるぷ」でヘルプが見れます。"))
 
 
 @bot.event
