@@ -1,5 +1,5 @@
-import config
 import discord
+from dotenv import load_dotenv
 import logging
 import os
 from discord.ext import commands
@@ -8,9 +8,9 @@ extensions = [
     "cogs.clan_battle"
 ]
 
-DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
+load_dotenv()
+DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 
-cnf = config.Config()
 logging.basicConfig(level=logging.INFO)
 
 bot = commands.Bot(command_prefix="ちぇる")
