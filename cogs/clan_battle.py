@@ -43,13 +43,15 @@ class ClanBattle(commands.Cog):
             if boss_name is None:
                 return
 
+            logging.info(f"on_reaction_add():"
+                         f" guild.id = {reaction_msg.guild.id}, member.id = {user.id}, boss_num = {num}")
             msg = await reaction_msg.channel.send("%sですね。ありがとうございます先輩。" % boss_name)
 
             for emoji in self.digit_emoji[1:6]:
                 await reaction_msg.remove_reaction(emoji, self.bot.user)
 
             self.data.set(reaction_msg.guild, key="current_boss", val=num)
-            await self.notice(guild=reaction_msg.guild, channel=reaction_msg.channel, boss_num=num)
+            await self.notify(guild=reaction_msg.guild, channel=reaction_msg.channel, boss_num=num)
 
             # msg = await reaction_msg.channel.send("ボスが変わったらまた教えて下さいね。")
             for emoji in self.digit_emoji[1:6]:
@@ -59,10 +61,12 @@ class ClanBattle(commands.Cog):
     async def reserve(self, ctx, boss_num: int):
         boss_name = self.to_boss_name(boss_num)
         if boss_name is None:
-            await ctx.channel.send("ちぇるよび (1〜5の数字)で入力おねがいします。")
+            await ctx.channel.send("ちぇるよび [1〜5の数字]で入力をおねがいします。")
             return
 
         self.add_reserve(guild=ctx.guild, member=ctx.author, boss_num=boss_num)
+        logging.info(f"reserve():"
+                     f" guild.id = {ctx.guild.id}, member.id = {ctx.author.id}, boss_num = {boss_num}")
         await ctx.channel.send("わかりました。%sになったらお呼びしますね。" % boss_name)
 
     def add_reserve(self, guild, member, boss_num):
@@ -76,7 +80,7 @@ class ClanBattle(commands.Cog):
                 return
         reserved_data[idx].append(member)
 
-    async def notice(self, guild, channel, boss_num):
+    async def notify(self, guild, channel, boss_num):
         if guild is None:
             return
         reserved_data = self.data.get(guild=guild, key='reserved')
@@ -84,9 +88,13 @@ class ClanBattle(commands.Cog):
 
         if len(reserved_data[idx]) > 0:
             mention = []
+            ids = []
             for m in reserved_data[idx]:
                 mention.append(m.mention)
+                ids.append(m.id)
+
             reserved_data[idx].clear()
+            logging.info('notify(): ids = ' + ' '.join(map(str, ids)))
             await channel.send(' '.join(mention))
 
     def emoji_to_digit(self, emoji):
