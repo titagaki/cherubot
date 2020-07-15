@@ -14,7 +14,6 @@ class Help(commands.Cog):
     @commands.command(name='へるぷ', aliases=['ぷ', '？', '?'])
     async def help(self, ctx):
         embed = discord.Embed(title="ヘルプ", description="コマンド一覧", color=0x00ffff)
-        embed.add_field(name="**ちぇる**", value="ちぇるーん", inline=False)
         embed.add_field(name="**ちぇるぼす**", value="このコマンドを入力してボスを選んでください。", inline=False)
         embed.add_field(name="**ちぇるよび**", value="ボスが来たときに知らせる設定ができます。「ちぇるよび 2」のように入力してください。", inline=False)
         embed.add_field(name="**ちぇるへるぷ**", value="ヘルプを表示します。", inline=False)

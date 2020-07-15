@@ -43,17 +43,16 @@ class ClanBattle(commands.Cog):
             if boss_name is None:
                 return
 
+            self.data.set(reaction_msg.guild, key="current_boss", val=num)
+
             logging.info(f"on_reaction_add():"
                          f" guild.id = {reaction_msg.guild.id}, member.id = {user.id}, boss_num = {num}")
+            await self.notify(guild=reaction_msg.guild, channel=reaction_msg.channel, boss_num=num)
             msg = await reaction_msg.channel.send("%sですね。ありがとうございます先輩。" % boss_name)
 
             for emoji in self.digit_emoji[1:6]:
                 await reaction_msg.remove_reaction(emoji, self.bot.user)
 
-            self.data.set(reaction_msg.guild, key="current_boss", val=num)
-            await self.notify(guild=reaction_msg.guild, channel=reaction_msg.channel, boss_num=num)
-
-            # msg = await reaction_msg.channel.send("ボスが変わったらまた教えて下さいね。")
             for emoji in self.digit_emoji[1:6]:
                 await msg.add_reaction(emoji)
 
